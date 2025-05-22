@@ -206,15 +206,15 @@ function Header() {
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/placeholder-user.jpg" alt="Patricia Peter" />
-                  <AvatarFallback>PP</AvatarFallback>
+                  <AvatarFallback>AT</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <div className="flex items-center justify-start gap-2 p-2">
                 <div className="flex flex-col space-y-1 leading-none">
-                  <p className="font-medium">Patricia Peter</p>
-                  <p className="text-xs text-muted-foreground">Super Admin</p>
+                  <p className="font-medium">Alperen Türkseven</p>
+                  <p className="text-xs text-muted-foreground">Admin</p>
                 </div>
               </div>
               <DropdownMenuItem>Profile</DropdownMenuItem>

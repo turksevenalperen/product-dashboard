@@ -1,4 +1,4 @@
- DevCase – Ürün Dashboard Arayüzü
+ DevCase – Product Dashboard
  Kullandığım Teknolojiler
 
 Framework: Next.js (App Router)

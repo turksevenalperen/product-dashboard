@@ -7,7 +7,7 @@ interface Product {
   name: string;
   price: number;
   stock: number;
-  // Diğer alanları da ekleyebilirsin
+ 
 }
 
 interface ProductContextType {
@@ -31,7 +31,7 @@ export const ProductProvider = ({ children }: { children: React.ReactNode }) => 
       const res = await fetch("https://devcase.isiksoftyazilim.com/api/products?page=1");
       if (!res.ok) throw new Error("API'den veri alınamadı.");
       const data = await res.json();
-      setProducts(data.products); // Eğer `data.products` değilse, console ile bakıp düzeltiriz
+      setProducts(data.products);
     } catch (err: any) {
       setError(err.message);
     } finally {

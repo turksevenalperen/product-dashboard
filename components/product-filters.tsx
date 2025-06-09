@@ -66,7 +66,7 @@ export function ProductFilters({ filters, onFiltersChange, onClearFilters }: Pro
           <Filter className="h-4 w-4 mr-2" />
           Filtreler
           {activeFilterCount > 0 && (
-            <Badge variant="destructive" className="ml-2 h-5 w-5 p-0 text-xs">
+            <Badge variant="destructive\" className="ml-2 h-5 w-5 p-0 text-xs">
               {activeFilterCount}
             </Badge>
           )}
@@ -156,7 +156,7 @@ export function ProductFilters({ filters, onFiltersChange, onClearFilters }: Pro
               <Label>Aktif Filtreler</Label>
               <div className="flex flex-wrap gap-2">
                 {filters.category && (
-                  <Badge variant="secondary" className="gap-1">
+                  <Badge variant="secondary\" className="gap-1">
                     Kategori: {filters.category}
                     <X 
                       className="h-3 w-3 cursor-pointer" 

@@ -66,11 +66,11 @@ export function ProductDashboard() {
             {activeTab === "dashboard" && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                  <StatCard title="Aktif Ürünler" value="247,384" change="+15%" trend="up" className="lg:col-span-1" />
-                  <StatCard title="Yeni Ürünler" value="+2,368" change="+24%" trend="up" className="lg:col-span-1" />
-                  <StatCard title="Tamamlanan Sipariş" value="33,847" change="-4%" trend="down" className="lg:col-span-1" />
-                  <StatCard title="Bekleyen Ödeme" value="1,284" change="+9%" trend="up" className="lg:col-span-1" />
-                  <StatCard title="İptal Edilen Sipariş" value="836" change="-2%" trend="down" className="lg:col-span-1" />
+                  <StatCard title="Aktif Ürünler\" value="247,384\" change="+15%\" trend="up\" className="lg:col-span-1" />
+                  <StatCard title="Yeni Ürünler\" value="+2,368\" change="+24%\" trend="up\" className="lg:col-span-1" />
+                  <StatCard title="Tamamlanan Sipariş\" value="33,847\" change="-4%\" trend="down\" className="lg:col-span-1" />
+                  <StatCard title="Bekleyen Ödeme\" value="1,284\" change="+9%\" trend="up\" className="lg:col-span-1" />
+                  <StatCard title="İptal Edilen Sipariş\" value="836\" change="-2%\" trend="down\" className="lg:col-span-1" />
                 </div>
                 <AnalyticsDashboard />
               </div>

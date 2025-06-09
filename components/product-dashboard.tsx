@@ -15,6 +15,9 @@ import {
   Settings,
   Tag,
   Users,
+  TrendingUp,
+  Package,
+  ShoppingCart,
 } from "lucide-react"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
@@ -25,11 +28,14 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ProductsTable } from "@/components/products-table"
 import { StatCard } from "@/components/stat-card"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { AnalyticsDashboard } from "@/components/analytics-dashboard"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function ProductDashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState("dashboard")
   const isDesktop = useMediaQuery("(min-width: 1024px)")
 
   return (
@@ -37,7 +43,7 @@ export function ProductDashboard() {
       {/* Sidebar for desktop */}
       {isDesktop ? (
         <div className="hidden lg:flex w-64 flex-col border-r">
-          <Sidebar />
+          <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
       ) : (
         <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
@@ -47,7 +53,7 @@ export function ProductDashboard() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-64">
-            <Sidebar />
+            <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
           </SheetContent>
         </Sheet>
       )}
@@ -56,33 +62,40 @@ export function ProductDashboard() {
       <div className="flex-1 flex flex-col">
         <Header />
         <main className="flex-1 p-4 md:p-6">
-          <div className="max-w-7xl mx-auto space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              <StatCard title="Active Products" value="247,384" change="+15%" trend="up" className="lg:col-span-1" />
-              <StatCard title="New Products" value="+2,368" change="+24%" trend="up" className="lg:col-span-1" />
-              <StatCard title="Completed Order" value="33,847" change="-4%" trend="down" className="lg:col-span-1" />
-              <StatCard title="Pending Payment" value="1,284" change="+9%" trend="up" className="lg:col-span-1" />
-              <StatCard title="Canceled Order" value="836" change="-2%" trend="down" className="lg:col-span-1" />
-            </div>
-
-            <Card>
-              <CardContent className="p-0">
-                <div className="p-4 flex items-center justify-between">
-                  <h2 className="text-lg font-medium">All Products</h2>
-                  <div className="flex items-center gap-2">
-                    <div className="relative hidden md:block">
-                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                      <Input type="search" placeholder="Search item..." className="w-[200px] pl-8" />
-                    </div>
-                    <Button className="gap-1" size="sm">
-                      <Plus className="h-4 w-4" />
-                      Add New Product
-                    </Button>
-                  </div>
+          <div className="max-w-7xl mx-auto">
+            {activeTab === "dashboard" && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                  <StatCard title="Aktif Ürünler" value="247,384" change="+15%" trend="up" className="lg:col-span-1" />
+                  <StatCard title="Yeni Ürünler" value="+2,368" change="+24%" trend="up" className="lg:col-span-1" />
+                  <StatCard title="Tamamlanan Sipariş" value="33,847" change="-4%" trend="down" className="lg:col-span-1" />
+                  <StatCard title="Bekleyen Ödeme" value="1,284" change="+9%" trend="up" className="lg:col-span-1" />
+                  <StatCard title="İptal Edilen Sipariş" value="836" change="-2%" trend="down" className="lg:col-span-1" />
                 </div>
-                <ProductsTable />
-              </CardContent>
-            </Card>
+                <AnalyticsDashboard />
+              </div>
+            )}
+            
+            {activeTab === "products" && (
+              <Card>
+                <CardContent className="p-0">
+                  <ProductsTable />
+                </CardContent>
+              </Card>
+            )}
+
+            {activeTab === "analytics" && (
+              <AnalyticsDashboard />
+            )}
+
+            {activeTab === "settings" && (
+              <Card>
+                <CardContent className="p-6">
+                  <h2 className="text-2xl font-bold mb-4">Ayarlar</h2>
+                  <p className="text-muted-foreground">Sistem ayarları burada görüntülenecek.</p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </main>
       </div>
@@ -90,7 +103,7 @@ export function ProductDashboard() {
   )
 }
 
-function Sidebar() {
+function Sidebar({ activeTab, onTabChange }: { activeTab: string; onTabChange: (tab: string) => void }) {
   return (
     <>
       <div className="p-4 flex items-center gap-2">
@@ -103,53 +116,74 @@ function Sidebar() {
       <div className="px-4 py-2">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input type="search" placeholder="Search here" className="pl-8" />
+          <Input type="search" placeholder="Ara..." className="pl-8" />
         </div>
       </div>
 
       <div className="px-2 py-2">
-        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">MAIN MENU</p>
+        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">ANA MENÜ</p>
         <nav className="space-y-1">
-          <SidebarItem icon={LayoutGrid} label="Dashboard" />
-          <SidebarItem icon={Box} label="Products" active />
-          <SidebarItem icon={Box} label="All Products" indent />
-          <SidebarItem icon={Plus} label="Add New Product" indent />
-          <SidebarItem icon={Tag} label="Tags" indent />
-          <SidebarItem icon={LayoutGrid} label="Categories" indent />
-          <SidebarItem icon={LayoutGrid} label="Sub Category" indent />
-          <SidebarItem icon={Users} label="Brands" indent />
-          <SidebarItem icon={BarChart3} label="Scan Barcode" indent />
-          <SidebarItem icon={Box} label="Import Products" indent />
+          <SidebarItem 
+            icon={LayoutGrid} 
+            label="Dashboard" 
+            active={activeTab === "dashboard"}
+            onClick={() => onTabChange("dashboard")}
+          />
+          <SidebarItem 
+            icon={Box} 
+            label="Ürünler" 
+            active={activeTab === "products"}
+            onClick={() => onTabChange("products")}
+          />
+          <SidebarItem icon={Box} label="Tüm Ürünler" indent />
+          <SidebarItem icon={Plus} label="Yeni Ürün Ekle" indent />
+          <SidebarItem icon={Tag} label="Etiketler" indent />
+          <SidebarItem icon={LayoutGrid} label="Kategoriler" indent />
+          <SidebarItem icon={LayoutGrid} label="Alt Kategori" indent />
+          <SidebarItem icon={Users} label="Markalar" indent />
+          <SidebarItem icon={BarChart3} label="Barkod Tara" indent />
+          <SidebarItem icon={Box} label="Ürün İçe Aktar" indent />
         </nav>
       </div>
 
       <div className="px-2 py-2">
-        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">ANALYTICS</p>
+        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">ANALİTİK</p>
         <nav className="space-y-1">
-          <SidebarItem icon={BarChart3} label="Sales" badge="42" />
-          <SidebarItem icon={BarChart3} label="Point of Sales" />
-          <SidebarItem icon={BarChart3} label="Leaderboards" />
-          <SidebarItem icon={BarChart3} label="Orders" />
-          <SidebarItem icon={BarChart3} label="Refund" />
-          <SidebarItem icon={BarChart3} label="Taxes" />
-          <SidebarItem icon={Box} label="Stock" />
+          <SidebarItem 
+            icon={BarChart3} 
+            label="Satışlar" 
+            badge="42" 
+            active={activeTab === "analytics"}
+            onClick={() => onTabChange("analytics")}
+          />
+          <SidebarItem icon={ShoppingCart} label="Satış Noktası" />
+          <SidebarItem icon={TrendingUp} label="Liderlik Tablosu" />
+          <SidebarItem icon={Package} label="Siparişler" />
+          <SidebarItem icon={BarChart3} label="İadeler" />
+          <SidebarItem icon={BarChart3} label="Vergiler" />
+          <SidebarItem icon={Box} label="Stok" />
         </nav>
       </div>
 
       <div className="px-2 py-2">
-        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">APPS</p>
+        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">UYGULAMALAR</p>
         <nav className="space-y-1">
-          <SidebarItem icon={MessageSquare} label="Chat" badge="80" />
-          <SidebarItem icon={LayoutGrid} label="Calendar" />
-          <SidebarItem icon={Mail} label="Email" />
+          <SidebarItem icon={MessageSquare} label="Sohbet" badge="80" />
+          <SidebarItem icon={LayoutGrid} label="Takvim" />
+          <SidebarItem icon={Mail} label="E-posta" />
         </nav>
       </div>
 
       <div className="px-2 py-2">
-        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">SETTINGS</p>
+        <p className="px-2 text-xs font-medium text-muted-foreground mb-2">AYARLAR</p>
         <nav className="space-y-1">
-          <SidebarItem icon={Settings} label="Settings" />
-          <SidebarItem icon={LogOut} label="Log Out" />
+          <SidebarItem 
+            icon={Settings} 
+            label="Ayarlar" 
+            active={activeTab === "settings"}
+            onClick={() => onTabChange("settings")}
+          />
+          <SidebarItem icon={LogOut} label="Çıkış Yap" />
         </nav>
       </div>
     </>
@@ -162,20 +196,23 @@ function SidebarItem({
   active = false,
   indent = false,
   badge,
+  onClick,
 }: {
   icon: any
   label: string
   active?: boolean
   indent?: boolean
   badge?: string
+  onClick?: () => void
 }) {
   return (
     <div
       className={`
-        flex items-center px-2 py-1.5 rounded-md text-sm
-        ${active ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-muted"}
+        flex items-center px-2 py-1.5 rounded-md text-sm cursor-pointer transition-colors
+        ${active ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:bg-muted hover:text-foreground"}
         ${indent ? "ml-4" : ""}
       `}
+      onClick={onClick}
     >
       <Icon className="h-4 w-4 mr-2" />
       <span>{label}</span>
@@ -205,7 +242,7 @@ function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder-user.jpg" alt="Patricia Peter" />
+                  <AvatarImage src="/placeholder-user.jpg" alt="Alperen Türkseven" />
                   <AvatarFallback>AT</AvatarFallback>
                 </Avatar>
               </Button>
@@ -217,9 +254,9 @@ function Header() {
                   <p className="text-xs text-muted-foreground">Admin</p>
                 </div>
               </div>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Log out</DropdownMenuItem>
+              <DropdownMenuItem>Profil</DropdownMenuItem>
+              <DropdownMenuItem>Ayarlar</DropdownMenuItem>
+              <DropdownMenuItem>Çıkış Yap</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

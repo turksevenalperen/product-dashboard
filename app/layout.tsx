@@ -3,15 +3,15 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { ProductProvider } from "@/context/ProductContext";
-
+import { ProductProvider } from "@/context/ProductContext"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Product Management Dashboard",
-  description: "A responsive product management dashboard built with Next.js and Tailwind CSS",
-    generator: 'v0.dev'
+  title: "Ürün Yönetim Sistemi | Master POS",
+  description: "Kapsamlı ürün yönetim sistemi - Next.js ve Tailwind CSS ile geliştirildi",
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -20,13 +20,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="tr" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-           <ProductProvider>
-             {children}
-           </ProductProvider>
-         
+          <ProductProvider>
+            {children}
+            <Toaster />
+          </ProductProvider>
         </ThemeProvider>
       </body>
     </html>
